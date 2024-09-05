@@ -1,0 +1,66 @@
+@import 'normalize.css';
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    line-height: 1.5;
+    text-rendering: optimizeSpeed;
+}
+
+::selection {
+    color: #fff;
+    background: #1677ff;
+}
+
+/* width: chiều rộng của thanh scroll*/
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track: Thanh dẫn của thanh cuộn */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle: tay cầm, nắm vào để cuộn */
+::-webkit-scrollbar-thumb {
+    background: #f1f1f1;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(22, 24, 35, 0.2);
+}
+
+html,
+body {
+    overflow: overlay;
+}
+
+::-webkit-scrollbar {
+    border-radius: 0;
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(22, 24, 35, 0.2);
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+a {
+    text-decoration: none;
+}
