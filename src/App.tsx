@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Fragment } from 'react/jsx-runtime';
 
 import { privateRoutes, publicRoutes } from './routes';
+import NotFound from './components/NotFound';
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                             />
                         );
                     })}
+
                     {privateRoutes.map((route, index) => {
                         const Page = route.component;
                         let Layout = route.layout;
@@ -48,6 +50,8 @@ function App() {
                             />
                         );
                     })}
+
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </div>
         </Router>
