@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import './GlobalStyles.css';
+import './Responsive.css';
 
 interface GlobalStyleProps {
     children: ReactNode;

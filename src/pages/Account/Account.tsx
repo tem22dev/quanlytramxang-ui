@@ -1,5 +1,3 @@
-import style from './Account.module.css';
-
 const Account = () => {
     return (
         <>

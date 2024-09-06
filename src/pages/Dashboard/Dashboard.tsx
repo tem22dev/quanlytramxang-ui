@@ -1,5 +1,3 @@
-import style from './Dashboard.module.css';
-
 const Dashboard = () => {
     return (
         <>
