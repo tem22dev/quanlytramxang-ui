@@ -1,11 +1,11 @@
-import bgSignin from './bg-signin.png';
+import bgLogin from './bg-login.png';
 
 type Images = {
-    bgSignin: string;
+    bgLogin: string;
 };
 
 const images: Images = {
-    bgSignin,
+    bgLogin,
 };
 
 export default images;

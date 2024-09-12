@@ -5,7 +5,7 @@ export interface Routes {
 }
 
 export const routes: Routes = {
-    login: '/dang-nhap',
+    login: '/login',
     dashboard: '/',
     accounts: '/tai-khoan',
 };
