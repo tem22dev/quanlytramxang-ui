@@ -1,11 +1,5 @@
-import bgLogin from './bg-login.png';
+type Images = {};
 
-type Images = {
-    bgLogin: string;
-};
-
-const images: Images = {
-    bgLogin,
-};
+const images: Images = {};
 
 export default images;
