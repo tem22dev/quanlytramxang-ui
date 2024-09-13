@@ -2,6 +2,8 @@ import { Button, Card, Checkbox, Flex, Form, Input } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import type { FormProps } from 'antd';
 
+import images from '../../assets/images';
+
 type FieldType = {
     user_identifier: string;
     password: string;
@@ -16,14 +18,14 @@ const Login: React.FC = () => {
     return (
         <div className="flex items-center justify-center min-h-screen bg-white">
             <Card
-                className="rounded-lg border shadow-md w-[350px]"
+                className="z-10 rounded-lg border shadow-md w-[350px]"
                 styles={{ header: { fontSize: '1.2rem', textAlign: 'center' } }}
                 title="Đăng nhập"
             >
                 <Form
                     name="login"
                     initialValues={{ remember: true }}
-                    size="large"
+                    size="middle"
                     layout="vertical"
                     onFinish={onFinish}
                 >
@@ -50,6 +52,10 @@ const Login: React.FC = () => {
                     </Form.Item>
                 </Form>
             </Card>
+            <div
+                className="absolute inset-0 z-0 bg-cover bg-center after:content-[''] after:absolute after:inset-0 after:bg-black after:bg-opacity-10"
+                style={{ backgroundImage: `url(${images.bgLogin})` }}
+            ></div>
         </div>
     );
 };
