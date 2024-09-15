@@ -1,18 +1,51 @@
-import { Button, Card, Checkbox, Flex, Form, Input } from 'antd';
-import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { App, Button, Card, Form, Input } from 'antd';
+import { LockOutlined, LoginOutlined, UserOutlined } from '@ant-design/icons';
 import type { FormProps } from 'antd';
+import * as authService from '../../services/authServices';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks';
+import { doLoginAccount } from '../../redux/account/accountSlice';
 
 import images from '../../assets/images';
 
 type FieldType = {
     user_identifier: string;
     password: string;
-    remember: boolean;
 };
 
 const Login: React.FC = () => {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const [isSubmit, setIsSubmit] = useState<boolean>(false);
+    const { message } = App.useApp();
+
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        console.log('Success:', values);
+        const { user_identifier, password } = values;
+        setIsSubmit(true);
+
+        const fetchApiLogin = async () => {
+            const result = await authService.login({ user_identifier, password });
+
+            if (!!result && result.status === 200) {
+                localStorage.setItem('access_token', result.data.token);
+                dispatch(doLoginAccount(result.data.user));
+
+                navigate('/');
+                setIsSubmit(false);
+                message.success('Đăng nhập thành công!', 4);
+            } else {
+                message.error('Sai thông tin tài khoản!', 4);
+                setIsSubmit(false);
+            }
+        };
+
+        if (!!user_identifier && !!password) {
+            fetchApiLogin();
+        } else {
+            message.info('Vui lòng nhập đầy đủ các thông tin!', 4);
+            setIsSubmit(false);
+        }
     };
 
     return (
@@ -24,7 +57,7 @@ const Login: React.FC = () => {
             >
                 <Form
                     name="login"
-                    initialValues={{ remember: true }}
+                    initialValues={{ remember_me: true }}
                     size="middle"
                     layout="vertical"
                     onFinish={onFinish}
@@ -38,15 +71,7 @@ const Login: React.FC = () => {
                     </Form.Item>
 
                     <Form.Item>
-                        <Flex justify="space-between" align="center">
-                            <Form.Item name="remember" valuePropName="checked" noStyle>
-                                <Checkbox>Ghi nhớ tôi</Checkbox>
-                            </Form.Item>
-                        </Flex>
-                    </Form.Item>
-
-                    <Form.Item>
-                        <Button block type="primary" htmlType="submit">
+                        <Button block type="primary" htmlType="submit" icon={<LoginOutlined />} loading={isSubmit}>
                             Đăng nhập
                         </Button>
                     </Form.Item>
