@@ -1,9 +1,60 @@
-const Sidebar = () => {
+import { Layout, Menu, Avatar, Space } from 'antd';
+
+import { DashboardOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+
+import images from '../../../assets/images';
+import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../../hooks';
+
+function Sidebar() {
+    const { Sider } = Layout;
+    const isCollapsedSidebar = useAppSelector((state) => state.app.isCollapsedSidebar);
+
+    const items = [
+        {
+            key: '/',
+            icon: <DashboardOutlined />,
+            label: <Link to="/">Trang chủ</Link>,
+        },
+        {
+            key: '/tai-khoan',
+            icon: <UsergroupAddOutlined />,
+            label: <Link to="/tai-khoan">Danh sách tài khoản</Link>,
+        },
+    ];
+
+    const listItem = items.map((item) => {
+        return {
+            key: item.key,
+            icon: item.icon,
+            label: item.label,
+        };
+    });
+
     return (
-        <>
-            <h1>Sidebar</h1>
-        </>
+        <Sider
+            trigger={null}
+            width={220}
+            collapsible
+            collapsed={isCollapsedSidebar}
+            theme="light"
+            style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0, top: 0, bottom: 0 }}
+        >
+            <div className="flex items-center justify-center px-0 pt-3 pb-9">
+                <Space wrap size={16}>
+                    <Avatar shape="square" size="default" src={images.logo} />
+                </Space>
+                {isCollapsedSidebar || <p className="text-sm font-bold ml-3">TEM</p>}
+            </div>
+            <Menu
+                theme="light"
+                mode="inline"
+                defaultSelectedKeys={['/']}
+                selectedKeys={[location.pathname]}
+                items={listItem}
+            ></Menu>
+        </Sider>
     );
-};
+}
 
 export default Sidebar;
