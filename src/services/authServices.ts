@@ -30,7 +30,7 @@ export const login = async ({ user_identifier, password }: LoginParams): Promise
 
 export const logout = async () => {
     try {
-        const res = await request.get('logout');
+        const res = await request.post('logout');
 
         return res;
     } catch (error) {

@@ -554,12 +554,50 @@ video {
   --tw-contain-style:  ;
 }
 
+.container {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
 .fixed {
   position: fixed;
 }
 
 .absolute {
   position: absolute;
+}
+
+.relative {
+  position: relative;
 }
 
 .inset-0 {
@@ -570,8 +608,16 @@ video {
   left: 50%;
 }
 
+.left-4 {
+  left: 1rem;
+}
+
 .top-2\/4 {
   top: 50%;
+}
+
+.top-4 {
+  top: 1rem;
 }
 
 .z-0 {
@@ -580,6 +626,10 @@ video {
 
 .z-10 {
   z-index: 10;
+}
+
+.m-5 {
+  margin: 1.25rem;
 }
 
 .ml-3 {
@@ -610,20 +660,20 @@ video {
   display: flex;
 }
 
-.h-16 {
-  height: 4rem;
+.h-\[100vh\] {
+  height: 100vh;
 }
 
 .min-h-screen {
   min-height: 100vh;
 }
 
-.w-16 {
-  width: 4rem;
-}
-
 .w-\[350px\] {
   width: 350px;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .translate-x-\[-50\%\] {
@@ -690,6 +740,11 @@ video {
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 .font-bold {

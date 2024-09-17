@@ -52,8 +52,8 @@ function Header() {
                 <Dropdown menu={{ items }} trigger={['click']}>
                     <div className="flex items-center cursor-pointer" onClick={(e) => e.preventDefault()}>
                         <Avatar shape="circle" size="default" src={images.avatar} className="mr-2" />
-                        <div className="text-base">{user?.full_name}</div>
-                        <DownOutlined />
+                        <div className="text-sm">{user?.full_name}</div>
+                        <DownOutlined className="text-xs" />
                     </div>
                 </Dropdown>
             </Space>
