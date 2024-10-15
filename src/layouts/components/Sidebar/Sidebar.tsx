@@ -1,6 +1,12 @@
 import { Layout, Menu, Avatar, Space } from 'antd';
-
-import { DashboardOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import {
+    DashboardOutlined,
+    DatabaseOutlined,
+    DollarOutlined,
+    ShopOutlined,
+    UserAddOutlined,
+    UsergroupAddOutlined,
+} from '@ant-design/icons';
 
 import images from '../../../assets/images';
 import { Link } from 'react-router-dom';
@@ -8,7 +14,9 @@ import { useAppSelector } from '../../../hooks';
 
 function Sidebar() {
     const { Sider } = Layout;
-    const isCollapsedSidebar = useAppSelector((state) => state.app.isCollapsedSidebar);
+    const isCollapsedSidebar = useAppSelector(
+        (state: { app: { isCollapsedSidebar: boolean } }) => state.app.isCollapsedSidebar,
+    );
 
     const items = [
         {
@@ -17,9 +25,29 @@ function Sidebar() {
             label: <Link to="/">Trang chủ</Link>,
         },
         {
-            key: '/tai-khoan',
+            key: '/tram-xang-dau',
+            icon: <ShopOutlined />,
+            label: <Link to="/tram-xang-dau">Trạm xăng dầu</Link>,
+        },
+        {
+            key: '/hoa-don',
+            icon: <DollarOutlined />,
+            label: <Link to="/tram-xang-dau">Hoá đơn</Link>,
+        },
+        {
+            key: '/kho-hang',
+            icon: <DatabaseOutlined />,
+            label: <Link to="/tram-xang-dau">Kho hàng</Link>,
+        },
+        {
+            key: '/nhan-vien',
             icon: <UsergroupAddOutlined />,
-            label: <Link to="/tai-khoan">Danh sách tài khoản</Link>,
+            label: <Link to="/nhan-vien">Nhân viên</Link>,
+        },
+        {
+            key: '/tai-khoan',
+            icon: <UserAddOutlined />,
+            label: <Link to="/tai-khoan">Tài khoản</Link>,
         },
     ];
 

@@ -56,12 +56,10 @@ const SearchMap: React.FC<SearchMapProps> = ({ map, accessToken }) => {
                     zoom: 12,
                 });
 
-                // Xóa marker cũ nếu có
                 if (markerRef.current) {
                     markerRef.current.remove();
                 }
 
-                // Tạo marker mới và thêm vào bản đồ
                 markerRef.current = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map!);
             }
         } else {

@@ -19,3 +19,17 @@ export const searchMap = async (url: string) => {
         throw Error(error);
     }
 };
+
+export const uploadFile = async (formData: FormData) => {
+    try {
+        const res = await request.post('upload-file', formData, {
+            headers: {
+                'Content-Type': 'Multipart/form-data',
+            },
+        });
+
+        return res;
+    } catch (error: any) {
+        throw Error(error);
+    }
+};

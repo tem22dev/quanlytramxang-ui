@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Layout, Card, Row, Col, Statistic } from 'antd';
+import { Layout, Card, Row, Col, Statistic, Table, Image } from 'antd';
 import CountUp from 'react-countup';
 
-import Map from '../../components/Map';
 import * as siteService from '../../services/siteServices';
 
 function Dashboard() {
@@ -17,11 +16,64 @@ function Dashboard() {
         if (resCounterUser) setCounterUser(resCounterUser.data.countAccount);
     };
 
-    const optionsMap = {
-        center: [105.14427879379264, 9.916562292555803],
-        style: 'mapbox://styles/mapbox/standard',
-        zoom: 2,
-    };
+    const dataSource = [
+        {
+            key: '1',
+            name_station: 'Mike',
+            thumbnail: 'assets/maps/image_20240920205043VVijT2XdSU.jpg',
+            user_id: 'Mike',
+            address: '10 Downing Street',
+            created_at: '12:30 | 12-12-2023',
+        },
+        {
+            key: '2',
+            name_station: 'John',
+            thumbnail: 'assets/maps/image_20240920205043VVijT2XdSU.jpg',
+            user_id: 'Mike',
+            address: '10 Downing Street',
+            created_at: '12:30 | 12-12-2022',
+        },
+    ];
+
+    // Columns table
+    const columns = [
+        {
+            title: '#',
+            dataIndex: '#',
+            render: (_: any, __: any, index: number) => <p>{index + 1}</p>,
+        },
+        {
+            title: 'Tên trạm',
+            width: 220,
+            dataIndex: 'name_station',
+            render: (text: string) => <p className="line-clamp-2">{text}</p>,
+        },
+        {
+            title: 'Hình ảnh',
+            dataIndex: 'thumbnail',
+            render: (text: string) => (
+                <div>
+                    <Image width={50} height={50} src={`${import.meta.env.VITE_BASE_URL_ROOT}${text}`} />
+                </div>
+            ),
+        },
+        {
+            title: 'Chủ trạm',
+            width: 220,
+            dataIndex: 'user_id',
+            render: (text: string) => <p className="line-clamp-2">{text}</p>,
+        },
+        {
+            title: 'Địa chỉ',
+            dataIndex: 'address',
+            render: (address: string) => address,
+        },
+        {
+            title: 'Thời gian',
+            dataIndex: 'created_at',
+            render: (date: string) => date,
+        },
+    ];
 
     useEffect(() => {
         fetchCounter();
@@ -52,7 +104,22 @@ function Dashboard() {
                 </Col>
                 <Col span={24}>
                     <Card bordered={false}>
-                        <Map options={optionsMap} />
+                        <div className="flex items-center mb-4">
+                            <h1 className="m-0 text-base">Danh sách trạm</h1>
+                        </div>
+                        <Table
+                            columns={columns}
+                            rowKey="key"
+                            dataSource={dataSource}
+                            pagination={{
+                                showSizeChanger: true,
+                                showTotal: (total, range) => (
+                                    <div>
+                                        {range[0]}-{range[1]} trên {total} dòng
+                                    </div>
+                                ),
+                            }}
+                        />
                     </Card>
                 </Col>
             </Row>

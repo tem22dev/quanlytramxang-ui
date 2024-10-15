@@ -14,7 +14,7 @@ interface DefaultLayoutProps {
 const DefaultLayout = ({ children }: DefaultLayoutProps) => {
     const { Content } = Layout;
 
-    const isCollapsedSidebar = useAppSelector((state) => state.app.isCollapsedSidebar);
+    const isCollapsedSidebar = useAppSelector((state) => state?.app.isCollapsedSidebar);
     const [width, setWidth] = useState(isCollapsedSidebar ? '80px' : '220px');
 
     useEffect(() => {
