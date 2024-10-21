@@ -8,6 +8,7 @@ import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
 import Account from '../pages/Account';
 import GasStation from '../pages/GasStation';
+import Staff from '../pages/Staff';
 
 interface Route {
     path: string;
@@ -23,4 +24,5 @@ export const privateRoutes: Route[] = [
     { path: config.routes.dashboard, component: Dashboard, layout: DefaultLayout },
     { path: config.routes.accounts, component: Account, layout: DefaultLayout },
     { path: config.routes.gasStation, component: GasStation, layout: DefaultLayout },
+    { path: config.routes.staffs, component: Staff, layout: DefaultLayout },
 ];

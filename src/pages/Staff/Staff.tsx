@@ -1,58 +1,65 @@
 import { useEffect, useState } from 'react';
 import { Layout, Card, Table, Space, Tag, Popconfirm, Button, App } from 'antd';
 
-import * as userServices from '../../services/userServices';
+import * as staffServices from '../../services/staffServices';
 import { DeleteOutlined, EditOutlined, PlusCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
-import AddUser from './AddUser';
-import UpdateUser from './UpdateUser';
+import AddStaff from './AddStaff';
+import UpdateStaff from './UpdateStaff';
 
-interface User {
+interface Staff {
     id: number;
+    gas_station_id: number;
+    gas_station: {
+        name_station: string;
+        address: string;
+    };
     full_name: string;
     tel: string;
-    email: string;
-    user_type: number;
+    birth_date: string;
+    position: string;
+    address: string;
     created_at: string;
 }
 
-const Account = () => {
+const Staff = () => {
     const { Content } = Layout;
     const { message } = App.useApp();
-    const [openAddUser, setOpenAddUser] = useState(false);
+    const [openAddStaff, setOpenAddStaff] = useState(false);
     const [dataUpdate, setDataUpdate] = useState({});
-    const [openUpdateUser, setOpenUpdateUser] = useState(false);
-    const [listUser, setListUser] = useState<User[] | []>([]);
+    const [openUpdateStaff, setOpenUpdateStaff] = useState(false);
+    const [listStaff, setListStaff] = useState<Staff[] | []>([]);
 
-    // Fetch list user
-    const fetchListUser = async () => {
+    // Fetch list staff
+    const fetchListStaff = async () => {
         try {
-            const result = await userServices.getListUser();
+            const result = await staffServices.getListStaff();
 
             if (!!result && result.status === 200) {
-                const dataSource = result.data.map((item: User) => {
+                const dataSource = result.data.map((item: Staff) => {
                     return {
                         key: item.id,
                         full_name: item.full_name,
                         tel: item.tel,
-                        email: item.email,
+                        name_station: item.gas_station.name_station,
+                        position: item.position,
                         created_at: item.created_at,
                     };
                 });
 
-                setListUser(dataSource);
+                setListStaff(dataSource);
             }
         } catch (error) {}
     };
 
-    // Handle delete user
-    const handleDeleteUser = async (id: number) => {
+    // Handle delete staff
+    const handleDeleteStaff = async (id: number) => {
         try {
-            const result = await userServices.deleteUser(id);
+            const result = await staffServices.deleteStaff(id);
             if (!!result && result.status === 200) {
-                message.success('Xoá tài khoản thành công', 4);
-                fetchListUser();
+                message.success('Xoá nhân viên thành công', 4);
+                fetchListStaff();
             } else {
-                message.error('Xoá tài khoản thất bại');
+                message.error('Xoá nhân viên thất bại');
             }
         } catch (error) {
             console.log(error);
@@ -79,9 +86,14 @@ const Account = () => {
             render: (text: string) => <p className="line-clamp-2">{text}</p>,
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
-            render: (address: string) => address,
+            title: 'Trạm',
+            dataIndex: 'name_station',
+            render: (name_station: string) => name_station,
+        },
+        {
+            title: 'Vị trí',
+            dataIndex: 'position',
+            render: (position: string) => position,
         },
         {
             title: 'Thời gian',
@@ -97,7 +109,7 @@ const Account = () => {
                         color="#2db7f5"
                         style={{ cursor: 'pointer' }}
                         onClick={() => {
-                            setOpenUpdateUser(true);
+                            setOpenUpdateStaff(true);
                             setDataUpdate(record);
                         }}
                     >
@@ -105,11 +117,11 @@ const Account = () => {
                     </Tag>
                     <Popconfirm
                         placement="topLeft"
-                        title="Xác nhận xoá user"
-                        description="Bạn có chắc chắn muốn xoá user này ?"
+                        title="Xác nhận xoá nhân viên"
+                        description="Bạn có chắc chắn muốn xoá nhân viên này ?"
                         okText="Xác nhận"
                         cancelText="Huỷ"
-                        onConfirm={() => handleDeleteUser(record.key)}
+                        onConfirm={() => handleDeleteStaff(record.key)}
                         icon={<QuestionCircleOutlined style={{ color: 'red', cursor: 'pointer' }} />}
                     >
                         <Tag color="#f50" style={{ cursor: 'pointer' }}>
@@ -122,16 +134,16 @@ const Account = () => {
     ];
 
     useEffect(() => {
-        fetchListUser();
+        fetchListStaff();
     }, []);
 
     return (
         <Content className="m-5 min-[calc(100vh - 104px)] rounded-lg">
             <Card bordered={false}>
                 <div className="flex items-center mb-4">
-                    <h1 className="m-0 text-base">Danh sách tài khoản</h1>
+                    <h1 className="m-0 text-base">Danh sách nhân viên</h1>
                     <Space className="ml-auto">
-                        <Button type="primary" icon={<PlusCircleOutlined />} onClick={() => setOpenAddUser(true)}>
+                        <Button type="primary" icon={<PlusCircleOutlined />} onClick={() => setOpenAddStaff(true)}>
                             Thêm mới
                         </Button>
                     </Space>
@@ -139,7 +151,7 @@ const Account = () => {
                 <Table
                     columns={columns}
                     rowKey="key"
-                    dataSource={listUser}
+                    dataSource={listStaff}
                     pagination={{
                         showSizeChanger: true,
                         showTotal: (total, range) => (
@@ -150,24 +162,24 @@ const Account = () => {
                     }}
                 />
 
-                {/* Add User */}
-                <AddUser
-                    openModalCreate={openAddUser}
-                    setOpenModalCreate={setOpenAddUser}
-                    fetchListUser={fetchListUser}
+                {/* Add Staff */}
+                <AddStaff
+                    openModalCreate={openAddStaff}
+                    setOpenModalCreate={setOpenAddStaff}
+                    fetchListStaff={fetchListStaff}
                 />
 
-                {/* Update User */}
-                <UpdateUser
-                    openModal={openUpdateUser}
-                    setOpenModel={setOpenUpdateUser}
+                {/* Update Staff */}
+                <UpdateStaff
+                    openModal={openUpdateStaff}
+                    setOpenModel={setOpenUpdateStaff}
                     dataUpdate={dataUpdate}
                     setDataUpdate={setDataUpdate}
-                    fetchListUser={fetchListUser}
+                    fetchListStaff={fetchListStaff}
                 />
             </Card>
         </Content>
     );
 };
 
-export default Account;
+export default Staff;

@@ -10,6 +10,11 @@ request.defaults.headers.common = { Authorization: `Bearer ${accessToken}` };
 
 request.interceptors.request.use(
     function (config) {
+        // Cập nhật token mỗi lần request
+        const accessToken = localStorage.getItem('access_token');
+        if (accessToken) {
+            config.headers['Authorization'] = `Bearer ${accessToken}`;
+        }
         return config;
     },
     function (error) {
