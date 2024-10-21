@@ -34,12 +34,15 @@ import {
     SmileOutlined,
 } from '@ant-design/icons';
 import { createRoot } from 'react-dom/client';
+import type { GetProps } from 'antd';
 
 import SearchMap from '../SearchMap ';
 import images from '../../assets/images';
 import * as stationServices from '../../services/stationServices';
 import * as siteServices from '../../services/siteServices';
 import * as userServices from '../../services/userServices';
+
+type SearchProps = GetProps<typeof Input.Search>;
 
 interface MapProps {
     options: object;
@@ -86,6 +89,7 @@ const Map: React.FC<MapProps> = ({ options }) => {
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
     const [locationUpdate, setLocationUpdate] = useState<{ lng: number; lat: number } | null>(null);
 
+    const { Search } = Input;
     const [form] = Form.useForm();
     const [formUpdate] = Form.useForm();
     const { message } = App.useApp();
@@ -406,6 +410,31 @@ const Map: React.FC<MapProps> = ({ options }) => {
         }
     };
 
+    // Search gas station
+    const onSearch: SearchProps['onSearch'] = async (value) => {
+        if (!!value) {
+            const result = await siteServices.searchGasStation(value);
+
+            if (result.status === 404) {
+                message.info('Không tìm thấy trạm', 4);
+            } else if (result.status === 200) {
+                const { lng, lat } = result.data[0];
+
+                mapRef.current.flyTo({
+                    center: [lng, lat],
+                    essential: true,
+                    zoom: 15,
+                });
+
+                setTimeout(() => {
+                    setSelectedStation(result.data[0]);
+                }, 3400);
+            }
+        } else {
+            message.info('Vui lòng nhập tên trạm hoặc mã trạm', 4);
+        }
+    };
+
     // Fetch list station
     const fetchListStation = async () => {
         try {
@@ -444,6 +473,9 @@ const Map: React.FC<MapProps> = ({ options }) => {
         <div className="relative w-full h-[100vh]" ref={mapContainerRef}>
             <div className="absolute top-4 left-4 z-10">
                 <SearchMap map={mapRef.current} accessToken={accessToken} />
+            </div>
+            <div className="absolute top-4 right-14 z-10">
+                <Search placeholder="Tìm kiếm trạm" onSearch={onSearch} enterButton />
             </div>
 
             {popupPosition && popupPixelPosition && (

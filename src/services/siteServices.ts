@@ -33,3 +33,13 @@ export const uploadFile = async (formData: FormData) => {
         throw Error(error);
     }
 };
+
+export const searchGasStation = async (query: string) => {
+    try {
+        const res = await request.get(`gas-station/search?query=${query}`);
+
+        return res;
+    } catch (error: any) {
+        throw Error(error);
+    }
+};
