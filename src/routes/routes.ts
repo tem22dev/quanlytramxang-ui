@@ -9,6 +9,7 @@ import Dashboard from '../pages/Dashboard';
 import Account from '../pages/Account';
 import GasStation from '../pages/GasStation';
 import Staff from '../pages/Staff';
+import Fuel from '../pages/Fuel';
 
 interface Route {
     path: string;
@@ -25,4 +26,5 @@ export const privateRoutes: Route[] = [
     { path: config.routes.accounts, component: Account, layout: DefaultLayout },
     { path: config.routes.gasStation, component: GasStation, layout: DefaultLayout },
     { path: config.routes.staffs, component: Staff, layout: DefaultLayout },
+    { path: config.routes.fuels, component: Fuel, layout: DefaultLayout },
 ];

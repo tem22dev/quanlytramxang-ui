@@ -32,12 +32,12 @@ function Sidebar() {
         {
             key: '/hoa-don',
             icon: <DollarOutlined />,
-            label: <Link to="/tram-xang-dau">Hoá đơn</Link>,
+            label: <Link to="/hoa-don">Hoá đơn</Link>,
         },
         {
-            key: '/kho-hang',
+            key: '/loai-xang-dau',
             icon: <DatabaseOutlined />,
-            label: <Link to="/tram-xang-dau">Kho hàng</Link>,
+            label: <Link to="/loai-xang-dau">Loại xăng dầu</Link>,
         },
         {
             key: '/nhan-vien',

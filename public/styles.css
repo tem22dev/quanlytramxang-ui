@@ -624,6 +624,10 @@ video {
   right: 0px;
 }
 
+.right-14 {
+  right: 3.5rem;
+}
+
 .top-2\/4 {
   top: 50%;
 }
@@ -634,22 +638,6 @@ video {
 
 .top-\[50\%\] {
   top: 50%;
-}
-
-.right-4 {
-  right: 1rem;
-}
-
-.right-6 {
-  right: 1.5rem;
-}
-
-.right-10 {
-  right: 2.5rem;
-}
-
-.right-14 {
-  right: 3.5rem;
 }
 
 .z-0 {

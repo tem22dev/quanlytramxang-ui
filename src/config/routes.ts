@@ -4,6 +4,7 @@ export interface Routes {
     gasStation: string;
     accounts: string;
     staffs: string;
+    fuels: string;
 }
 
 export const routes: Routes = {
@@ -12,4 +13,5 @@ export const routes: Routes = {
     gasStation: '/tram-xang-dau',
     accounts: '/tai-khoan',
     staffs: '/nhan-vien',
+    fuels: '/loai-xang-dau',
 };
