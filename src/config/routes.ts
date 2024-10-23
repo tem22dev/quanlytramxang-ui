@@ -5,6 +5,7 @@ export interface Routes {
     accounts: string;
     staffs: string;
     fuels: string;
+    invoices: string;
 }
 
 export const routes: Routes = {
@@ -14,4 +15,5 @@ export const routes: Routes = {
     accounts: '/tai-khoan',
     staffs: '/nhan-vien',
     fuels: '/loai-xang-dau',
+    invoices: '/hoa-don',
 };

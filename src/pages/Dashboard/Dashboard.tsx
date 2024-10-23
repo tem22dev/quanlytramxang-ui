@@ -26,14 +26,23 @@ interface Station {
 function Dashboard() {
     const { Content } = Layout;
     const [counterUser, setCounterUser] = useState(0);
+    const [counterInvoices, setCounterInvoices] = useState(0);
+    const [counterStation, setCounterStation] = useState(0);
+    const [counterStaff, setCounterStaff] = useState(0);
     const [listStation, setListStation] = useState<Station[] | []>([]);
 
     const formatter = (value: any) => <CountUp end={value} separator="," />;
 
     const fetchCounter = async () => {
         const resCounterUser = await siteService.counterUser();
+        const resCounterInvoices = await siteService.counterInvoices();
+        const resCounterStaff = await siteService.counterStaff();
+        const resCounterStation = await siteService.counterStation();
 
         if (resCounterUser) setCounterUser(resCounterUser.data.countAccount);
+        if (resCounterInvoices) setCounterInvoices(resCounterInvoices.data.countInvoice);
+        if (resCounterStaff) setCounterStaff(resCounterStaff.data.countStaff);
+        if (resCounterStation) setCounterStation(resCounterStation.data.countGasStation);
     };
 
     // Fetch list station
@@ -108,17 +117,17 @@ function Dashboard() {
             <Row gutter={[12, 12]}>
                 <Col span={6}>
                     <Card bordered={false}>
-                        <Statistic title="Hoá Đơn" value={10} formatter={formatter} />
+                        <Statistic title="Hoá Đơn" value={counterInvoices} formatter={formatter} />
                     </Card>
                 </Col>
                 <Col span={6}>
                     <Card bordered={false}>
-                        <Statistic title="Trạm Xăng" value={20} formatter={formatter} />
+                        <Statistic title="Trạm Xăng" value={counterStation} formatter={formatter} />
                     </Card>
                 </Col>
                 <Col span={6}>
                     <Card bordered={false}>
-                        <Statistic title="Nhân Viên" value={75} formatter={formatter} />
+                        <Statistic title="Nhân Viên" value={counterStaff} formatter={formatter} />
                     </Card>
                 </Col>
                 <Col span={6}>

@@ -19,6 +19,16 @@ export const getListStaff = async () => {
     }
 };
 
+export const getListStaffByGasStationId = async (id: number) => {
+    try {
+        const res = await request.get(`staff/gas-station/${id}`);
+
+        return res;
+    } catch (error) {
+        throw new Error('Failed get data list staff');
+    }
+};
+
 export const getAStaff = async (id: number) => {
     try {
         const res = await request.get(`staff/${id}`);
