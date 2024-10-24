@@ -43,33 +43,3 @@ export const createInvoice = async ({ staff_id, gas_station_id, detail_invoice }
         throw new Error('Failed create invoice');
     }
 };
-
-export const updateInvoice = async (dataUpdate: {
-    id: number;
-    full_name: string;
-    tel: string;
-    gas_station_id: number;
-    address: string;
-    birth_date: string;
-    position: string;
-}) => {
-    try {
-        const res = await request.put(`invoice/${dataUpdate.id}`, {
-            ...dataUpdate,
-        });
-
-        return res;
-    } catch (error) {
-        throw new Error('Failed update invoice');
-    }
-};
-
-export const deleteInvoice = async (id: number) => {
-    try {
-        const res = await request.delete(`invoice/${id}`);
-
-        return res;
-    } catch (error: any) {
-        throw new Error(error);
-    }
-};

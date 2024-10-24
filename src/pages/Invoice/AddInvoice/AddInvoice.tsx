@@ -72,7 +72,6 @@ const AddInvoice: React.FC<AddInvoiceProps> = ({ openModalCreate, setOpenModalCr
     const [form] = Form.useForm();
     const { message } = App.useApp();
     const [isSubmit, setIsSubmit] = useState(false);
-    const [price, setPrice] = useState(0);
     const [listStation, setListStation] = useState<Station[] | []>([]);
     const [listStaff, setListStaff] = useState<Staff[] | []>([]);
     const [listFuel, setListFuel] = useState<Fuel[] | []>([]);
@@ -145,8 +144,6 @@ const AddInvoice: React.FC<AddInvoiceProps> = ({ openModalCreate, setOpenModalCr
             const result = await fuelServices.getAFuel(id);
 
             if (!!result && result.status === 200) {
-                setPrice(result.data.price_number); // Thiết lập giá trị mặc định
-
                 if (typeof fieldKey === 'number') {
                     // Nếu có fieldKey, tức là đang thao tác với Form.List
                     form.setFieldValue(['detail_invoice', fieldKey, 'price'], result.data.price_number);
@@ -160,97 +157,6 @@ const AddInvoice: React.FC<AddInvoiceProps> = ({ openModalCreate, setOpenModalCr
             console.error(error);
         }
     };
-
-    // const onFinish = async (values: CreateInvoice) => {
-    //     const { staff_id, gas_station_id, quantity, price, fuel_id, detail_invoice } = values;
-    //     setIsSubmit(true);
-    //     console.log(values);
-    //     console.log();
-    //     const addValue = [
-    //         {
-    //             fuel_id,
-    //             quantity,
-    //             price: par
-    //         }
-    //     ]
-    //     values.detail_invoice = [
-    //         ...addValue
-    //     ]
-
-    //     const formattedBirthDate = dayjs(birth_date).format('D-M-YYYY');
-    //     values.birth_date = formattedBirthDate;
-
-    //     try {
-    //         const result = await invoiceServices.createInvoice({
-    //             full_name,
-    //             gas_station_id,
-    //             address,
-    //             birth_date,
-    //             position,
-    //             tel,
-    //         });
-
-    //         if (!!result && result.status === 200) {
-    //             message.success('Tạo mới hoá đơn thành công', 4);
-    //             form.resetFields();
-    //             setOpenModalCreate(false);
-    //             await fetchListInvoice();
-    //         } else if (result.status === 422) {
-    //             message.warning('Nhập đầy đủ các trường', 4);
-    //         } else {
-    //             message.error('Thêm hoá đơn thất bại', 4);
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-
-    //     setIsSubmit(false);
-    // };
-
-    // const onFinish = async (values: CreateInvoice) => {
-    //     const { staff_id, gas_station_id, fuel_id, quantity, price } = values;
-
-    //     setIsSubmit(true);
-
-    //     // Chuyển đổi quantity và price về kiểu số nếu cần
-    //     const convertedQuantity = parseFloat(quantity as unknown as string);
-    //     const convertedPrice = parseFloat(price as unknown as string);
-
-    //     // Tạo mảng detail_invoice từ fuel_id, quantity, price
-    //     const detailInvoice = [
-    //         {
-    //             fuel_id,
-    //             quantity: convertedQuantity,
-    //             price: convertedPrice,
-    //         },
-    //     ];
-
-    //     // Gán detail_invoice vào values
-    //     values.detail_invoice = [...values.detail_invoice, ...detailInvoice];
-    //     console.log(values);
-    //     // try {
-    //     //     const result = await invoiceServices.createInvoice({
-    //     //         staff_id, // Gán staff_id
-    //     //         gas_station_id, // Gán gas_station_id
-    //     //         detail_invoice: values.detail_invoice, // Truyền detail_invoice
-    //     //     });
-
-    //     //     if (result && result.status === 200) {
-    //     //         message.success('Tạo mới hoá đơn thành công', 4);
-    //     //         form.resetFields();
-    //     //         setOpenModalCreate(false);
-    //     //         await fetchListInvoice();
-    //     //     } else if (result.status === 422) {
-    //     //         message.warning('Nhập đầy đủ các trường', 4);
-    //     //     } else {
-    //     //         message.error('Thêm hoá đơn thất bại', 4);
-    //     //     }
-    //     // } catch (error) {
-    //     //     console.error(error);
-    //     // }
-
-    //     setIsSubmit(false);
-    // };
 
     const onFinish = async (values: CreateInvoice) => {
         const { staff_id, gas_station_id, fuel_id, quantity, price } = values;

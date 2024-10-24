@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Layout, Card, Table, Space, Tag, Button, App } from 'antd';
+import { Layout, Card, Table, Space, Tag, Button } from 'antd';
 
 import * as invoiceServices from '../../services/invoiceServices';
 import { EyeOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import AddInvoice from './AddInvoice';
+import ViewInvoice from './ViewInvoice';
 
 interface Invoice {
     id: number;
@@ -44,8 +45,9 @@ interface Invoice {
 
 const Invoice = () => {
     const { Content } = Layout;
-    const { message } = App.useApp();
     const [openAddInvoice, setOpenAddInvoice] = useState(false);
+    const [dataView, setDataView] = useState({});
+    const [openModalView, setOpenModalView] = useState(false);
     const [listInvoice, setListInvoice] = useState<Invoice[] | []>([]);
 
     // Fetch list invoice
@@ -98,17 +100,24 @@ const Invoice = () => {
             dataIndex: 'created_at',
             render: (date: string) => date,
         },
-        // {
-        //     title: 'Thao tác',
-        //     dataIndex: 'action',
-        //     render: (_: any, record: any) => (
-        //         <Space>
-        //             <Tag color="#27d674" style={{ cursor: 'pointer' }}>
-        //                 <EyeOutlined />
-        //             </Tag>
-        //         </Space>
-        //     ),
-        // },
+        {
+            title: 'Thao tác',
+            dataIndex: 'action',
+            render: (_: any, record: any) => (
+                <Space>
+                    <Tag
+                        onClick={() => {
+                            setOpenModalView(true);
+                            setDataView(record);
+                        }}
+                        color="#27d674"
+                        style={{ cursor: 'pointer' }}
+                    >
+                        <EyeOutlined />
+                    </Tag>
+                </Space>
+            ),
+        },
     ];
 
     useEffect(() => {
@@ -145,6 +154,14 @@ const Invoice = () => {
                     openModalCreate={openAddInvoice}
                     setOpenModalCreate={setOpenAddInvoice}
                     fetchListInvoice={fetchListInvoice}
+                />
+
+                {/* View Invoices */}
+                <ViewInvoice
+                    openModal={openModalView}
+                    setOpenModel={setOpenModalView}
+                    dataView={dataView}
+                    setDataView={setDataView}
                 />
             </Card>
         </Content>
