@@ -3,7 +3,8 @@ import {
     DashboardOutlined,
     DatabaseOutlined,
     DollarOutlined,
-    ShopOutlined,
+    DownloadOutlined,
+    EnvironmentOutlined,
     UserAddOutlined,
     UsergroupAddOutlined,
 } from '@ant-design/icons';
@@ -26,13 +27,18 @@ function Sidebar() {
         },
         {
             key: '/tram-xang-dau',
-            icon: <ShopOutlined />,
+            icon: <EnvironmentOutlined />,
             label: <Link to="/tram-xang-dau">Trạm xăng dầu</Link>,
         },
         {
             key: '/hoa-don',
             icon: <DollarOutlined />,
             label: <Link to="/hoa-don">Hoá đơn</Link>,
+        },
+        {
+            key: '/phieu-nhap',
+            icon: <DownloadOutlined />,
+            label: <Link to="/phieu-nhap">Phiếu nhập</Link>,
         },
         {
             key: '/loai-xang-dau',

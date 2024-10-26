@@ -11,6 +11,7 @@ import GasStation from '../pages/GasStation';
 import Staff from '../pages/Staff';
 import Fuel from '../pages/Fuel';
 import Invoice from '../pages/Invoice';
+import EntryForm from '../pages/EntryForm';
 
 interface Route {
     path: string;
@@ -29,4 +30,5 @@ export const privateRoutes: Route[] = [
     { path: config.routes.staffs, component: Staff, layout: DefaultLayout },
     { path: config.routes.fuels, component: Fuel, layout: DefaultLayout },
     { path: config.routes.invoices, component: Invoice, layout: DefaultLayout },
+    { path: config.routes.entryForm, component: EntryForm, layout: DefaultLayout },
 ];
