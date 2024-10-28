@@ -23,6 +23,7 @@ export interface ViewInvoice {
         lng: number;
         lat: number;
         address: string;
+        created_at: string;
     };
     staff: {
         id: number;
@@ -47,6 +48,7 @@ export interface ViewInvoice {
         price_format: string;
     }>;
     created_at: string;
+    created_at_date: string;
 }
 
 const ViewInvoice: React.FC<ViewInvoiceProps> = ({ openModal, dataView, setOpenModel, setDataView }) => {
@@ -107,7 +109,7 @@ const ViewInvoice: React.FC<ViewInvoiceProps> = ({ openModal, dataView, setOpenM
                 <>
                     <Descriptions title="Thông tin hóa đơn" bordered>
                         <Descriptions.Item label="Mã hoá đơn">{dataViewFetch.id}</Descriptions.Item>
-                        <Descriptions.Item label="Cửa hàng">{dataViewFetch.gas_station.name_station}</Descriptions.Item>
+                        <Descriptions.Item label="Tên trạm">{dataViewFetch.gas_station.name_station}</Descriptions.Item>
                         <Descriptions.Item label="Nhân viên">{dataViewFetch.staff.full_name}</Descriptions.Item>
                         <Descriptions.Item label="Tổng giá">{dataViewFetch.total_price_format}</Descriptions.Item>
                         <Descriptions.Item label="Ngày tạo">{dataViewFetch.created_at}</Descriptions.Item>

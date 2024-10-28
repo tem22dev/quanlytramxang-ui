@@ -23,6 +23,7 @@ export interface ViewEntryForm {
         lng: number;
         lat: number;
         address: string;
+        created_at: string;
     };
     total_price: number;
     total_price_format: string;
@@ -39,6 +40,7 @@ export interface ViewEntryForm {
         price_format: string;
     }>;
     created_at: string;
+    created_at_date: string;
 }
 
 const ViewEntryForm: React.FC<ViewEntryFormProps> = ({ openModal, dataView, setOpenModel, setDataView }) => {
@@ -99,7 +101,7 @@ const ViewEntryForm: React.FC<ViewEntryFormProps> = ({ openModal, dataView, setO
                 <>
                     <Descriptions title="Thông tin hóa đơn" bordered>
                         <Descriptions.Item label="Mã phiếu nhập">{dataViewFetch.id}</Descriptions.Item>
-                        <Descriptions.Item label="Cửa hàng">{dataViewFetch.gas_station.name_station}</Descriptions.Item>
+                        <Descriptions.Item label="Tên trạm">{dataViewFetch.gas_station.name_station}</Descriptions.Item>
                         <Descriptions.Item label="Tổng giá">{dataViewFetch.total_price_format}</Descriptions.Item>
                         <Descriptions.Item label="Ngày tạo">{dataViewFetch.created_at}</Descriptions.Item>
                     </Descriptions>

@@ -21,6 +21,8 @@ import {
     Badge,
     Card,
     Tooltip,
+    DatePicker,
+    Table,
 } from 'antd';
 import {
     CloseOutlined,
@@ -38,9 +40,14 @@ import type { GetProps } from 'antd';
 
 import SearchMap from '../SearchMap ';
 import images from '../../assets/images';
+import { ViewEntryForm } from '../../pages/EntryForm/ViewEntryForm';
+import { ViewInvoice } from '../../pages/Invoice/ViewInvoice';
 import * as stationServices from '../../services/stationServices';
 import * as siteServices from '../../services/siteServices';
 import * as userServices from '../../services/userServices';
+import * as entryFormServices from '../../services/entryFormServices';
+import * as invoiceServices from '../../services/invoiceServices';
+import Chart from '../Chart';
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -79,6 +86,7 @@ const Map: React.FC<MapProps> = ({ options }) => {
     const [isPopconfirmOpen, setIsPopconfirmOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
+    const [isModalViewOpen, setIsModalViewOpen] = useState(false);
     const [isModalMapOpen, setIsModalMapOpen] = useState(false);
     const [isSubmit, setIsSubmit] = useState<boolean>(false);
     const [listUser, setListUser] = useState([]);
@@ -88,8 +96,13 @@ const Map: React.FC<MapProps> = ({ options }) => {
     const [previewImage, setPreviewImage] = useState('');
     const [markers, setMarkers] = useState<mapboxgl.Marker[]>([]);
     const [locationUpdate, setLocationUpdate] = useState<{ lng: number; lat: number } | null>(null);
+    const [dataEntryFormFetch, setDataEntryFormFetch] = useState(null);
+    const [dataInvoiceFetch, setDataInvoiceFetch] = useState(null);
+    const [dataChartEntryFormFetch, setDataChartEntryFormFetch] = useState(null);
+    const [dataChartInvoiceFetch, setDataChartInvoiceFetch] = useState(null);
 
     const { Search } = Input;
+    const { RangePicker } = DatePicker;
     const [form] = Form.useForm();
     const [formUpdate] = Form.useForm();
     const { message } = App.useApp();
@@ -263,6 +276,57 @@ const Map: React.FC<MapProps> = ({ options }) => {
                 },
             ],
         });
+    };
+
+    const handleModelViewCancel = () => {
+        setIsModalViewOpen(false);
+    };
+
+    const handleViewStatistical = () => {
+        setIsModalViewOpen(true);
+        fetchEntryFormView();
+        fetchInvoiceView();
+    };
+
+    const fetchEntryFormView = async () => {
+        if (selectedStation?.id) {
+            const result = await entryFormServices.getListEntryFormByIdGasStation(selectedStation?.id);
+            if (!!result && result.status === 200) {
+                console.log(result);
+                const dataSource = result.data.map((item: ViewEntryForm) => {
+                    return {
+                        id: item.id,
+                        key: item.id,
+                        total_price: item.total_price_format,
+                        created_at: item.created_at,
+                    };
+                });
+
+                setDataEntryFormFetch(dataSource);
+
+                setDataChartEntryFormFetch(result.data);
+            }
+        }
+    };
+
+    const fetchInvoiceView = async () => {
+        if (selectedStation?.id) {
+            const result = await invoiceServices.getListInvoiceByIdGasStation(selectedStation?.id);
+            if (!!result && result.status === 200) {
+                console.log(result);
+                const dataSource = result.data.map((item: ViewInvoice) => {
+                    return {
+                        id: item.id,
+                        key: item.id,
+                        total_price: item.total_price_format,
+                        created_at: item.created_at,
+                    };
+                });
+
+                setDataInvoiceFetch(dataSource);
+                setDataChartInvoiceFetch(result.data);
+            }
+        }
     };
 
     // Handle update station
@@ -468,6 +532,54 @@ const Map: React.FC<MapProps> = ({ options }) => {
         fetchListUser();
         fetchListStation();
     }, []);
+
+    // Columns for the view thống kê table
+    const columns = [
+        {
+            title: '#',
+            dataIndex: '#',
+            render: (_: any, __: any, index: number) => index + 1,
+        },
+        {
+            title: 'Mã phiếu nhập',
+            dataIndex: 'key',
+            render: (value: any) => value,
+        },
+        {
+            title: 'Tổng tiền',
+            dataIndex: 'total_price',
+            render: (total_price: string) => total_price,
+        },
+        {
+            title: 'Thời gian',
+            dataIndex: 'created_at',
+            render: (date: string) => date,
+        },
+    ];
+
+    // Columns for the view thống kê table
+    const columnsInvoice = [
+        {
+            title: '#',
+            dataIndex: '#',
+            render: (_: any, __: any, index: number) => index + 1,
+        },
+        {
+            title: 'Mã hoá đơn',
+            dataIndex: 'key',
+            render: (value: any) => value,
+        },
+        {
+            title: 'Tổng tiền',
+            dataIndex: 'total_price',
+            render: (total_price: string) => total_price,
+        },
+        {
+            title: 'Thời gian',
+            dataIndex: 'created_at',
+            render: (date: string) => date,
+        },
+    ];
 
     return (
         <div className="relative w-full h-[100vh]" ref={mapContainerRef}>
@@ -690,6 +802,34 @@ const Map: React.FC<MapProps> = ({ options }) => {
                 </Form>
             </Modal>
 
+            {/* Model View Thống kê */}
+            {selectedStation &&
+                dataEntryFormFetch &&
+                dataInvoiceFetch &&
+                dataChartEntryFormFetch &&
+                dataChartInvoiceFetch && (
+                    <Modal
+                        title="Xem thống kê"
+                        open={isModalViewOpen}
+                        onCancel={handleModelViewCancel}
+                        maskClosable={false}
+                        footer={null}
+                        width={920}
+                    >
+                        {/* <div className="flex justify-center">
+                            <RangePicker />
+                        </div> */}
+                        <h2 className="text-base font-medium">Bảng phiếu nhập</h2>
+                        <Table dataSource={dataEntryFormFetch} columns={columns} rowKey="key" pagination={false} />
+
+                        <h2 className="text-base font-medium mt-5">Bảng hoá đơn</h2>
+                        <Table dataSource={dataInvoiceFetch} columns={columnsInvoice} rowKey="key" pagination={false} />
+
+                        <h2 className="text-base font-medium mt-5">Biểu đồ thống kê</h2>
+                        <Chart dataEntryFormFetch={dataChartEntryFormFetch} dataInvoiceFetch={dataChartInvoiceFetch} />
+                    </Modal>
+                )}
+
             {/* Show detail model map */}
             {selectedStation && (
                 <div className="absolute top-[50%] right-0 z-50 translate-y-[-50%]">
@@ -706,7 +846,7 @@ const Map: React.FC<MapProps> = ({ options }) => {
                         }
                         actions={[
                             <Tooltip title="Xem thống kê">
-                                <PieChartOutlined key="statistical" />
+                                <PieChartOutlined onClick={handleViewStatistical} key="statistical" />
                             </Tooltip>,
                             <Tooltip title="Chỉnh sửa">
                                 <EditOutlined onClick={handleUpdate} key="edit" />

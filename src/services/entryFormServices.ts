@@ -19,6 +19,16 @@ export const getListEntryForm = async () => {
     }
 };
 
+export const getListEntryFormByIdGasStation = async (id: number) => {
+    try {
+        const res = await request.get(`entry-form/gas-id/${id}`);
+
+        return res;
+    } catch (error) {
+        throw new Error('Failed get data list entry-form by id gas station');
+    }
+};
+
 export const getAEntryForm = async (id: number) => {
     try {
         const res = await request.get(`entry-form/${id}`);

@@ -20,6 +20,16 @@ export const getListInvoice = async () => {
     }
 };
 
+export const getListInvoiceByIdGasStation = async (id: number) => {
+    try {
+        const res = await request.get(`invoice/gas-id/${id}`);
+
+        return res;
+    } catch (error) {
+        throw new Error('Failed get data list invoice by id gas station');
+    }
+};
+
 export const getAInvoice = async (id: number) => {
     try {
         const res = await request.get(`invoice/${id}`);
