@@ -99,7 +99,7 @@ const ViewEntryForm: React.FC<ViewEntryFormProps> = ({ openModal, dataView, setO
         >
             {dataViewFetch ? (
                 <>
-                    <Descriptions title="Thông tin hóa đơn" bordered>
+                    <Descriptions title="Thông tin phiếu nhập" bordered>
                         <Descriptions.Item label="Mã phiếu nhập">{dataViewFetch.id}</Descriptions.Item>
                         <Descriptions.Item label="Tên trạm">{dataViewFetch.gas_station.name_station}</Descriptions.Item>
                         <Descriptions.Item label="Tổng giá">{dataViewFetch.total_price_format}</Descriptions.Item>
